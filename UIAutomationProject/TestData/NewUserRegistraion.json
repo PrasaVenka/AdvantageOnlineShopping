@@ -1,0 +1,56 @@
+{
+  "InputFields": [
+    {
+      "Name": "Username",
+      "Value": "Username"
+    },
+    {
+      "Name": "Email",
+      "Value": "email@email.com"
+    },
+    {
+      "Name": "Password",
+      "Value": "Password1"
+    },
+    {
+      "Name": "Confirmpassword",
+      "Value": "Password1"
+    },
+    {
+      "Name": "FirstName",
+      "Value": "FirstName"
+    },
+    {
+      "Name": "LastName",
+      "Value": "LastName"
+    },
+    {
+      "Name": "PhoneNumber",
+      "Value": "PhoneNumber"
+    },
+    {
+      "Name": "Country",
+      "Value": "Australia"
+    },
+    {
+      "Name": "City",
+      "Value": "Sydney"
+    },
+    {
+      "Name": "Address",
+      "Value": "100 George street"
+    },
+    {
+      "Name": "StateProvinceRegion",
+      "Value": "NSW"
+    },
+    {
+      "Name": "PostalCode",
+      "Value": "2000"
+    }
+
+  ],
+  "AcceptMarketingComs": true,
+  "AcceptTCs": true,
+  "DynamicUserCreation": true
+}
