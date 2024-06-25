@@ -1,0 +1,24 @@
+{
+  "MandatoryElements": [
+    {
+      "ElementName": "Username",
+      "ElementLocator": "usernameRegisterPage",
+      "ElementData": "UserName"
+    },
+    {
+      "ElementName": "Email",
+      "ElementLocator": "emailRegisterPage",
+      "ElementData": "email@email.com"
+    },
+    {
+      "ElementName": "Password",
+      "ElementLocator": "passwordRegisterPage",
+      "ElementData": "Password1"
+    },
+    {
+      "ElementName": "Confirm password",
+      "ElementLocator": "confirm_passwordRegisterPage",
+      "ElementData": "Password1"
+    }
+  ]
+}

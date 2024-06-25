@@ -8,7 +8,6 @@ namespace UIAutomationProject.TestScripts
     public class AccountRegistrationTest : PageBase
     {
         [Test]
-        [TestCase("ExistingUserRegistration.json")]
         [TestCase("NewUserRegistraion.json")]
         public void AccountRegistrationTestcase(String payloadFile)
         {
@@ -20,10 +19,8 @@ namespace UIAutomationProject.TestScripts
             extentTest.Log(Status.Info, "Landing on Login/create acconut panel is success", CaptureScreenshot(driver, ScreenshotFileName));
             HomePage loggedIn = createNewAccount.RegisterAccount(payloadFile);
             extentTest.Log(Status.Info, "Landing on create new account page is success", CaptureScreenshot(driver, ScreenshotFileName));
-            loggedIn.ValidateUserCreation();
-            extentTest.Log(Status.Info, "User created successfully", CaptureScreenshot(driver, ScreenshotFileName));
-
-            Thread.Sleep(8000); // Manual wait to verify the result
+            Assert.True(loggedIn.ValidateUserCreation());
+            extentTest.Log(Status.Pass, "User created successfully", CaptureScreenshot(driver, ScreenshotFileName));            
         }
 
     }

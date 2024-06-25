@@ -1,6 +1,4 @@
-﻿using AventStack.ExtentReports;
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using UIAutomationProject.Utilities;
 
@@ -9,9 +7,9 @@ namespace UIAutomationProject.PageObject
     public class HomePage : PageBase
     {
         private IWebDriver driver;
-        private By bySpeaker = By.Id("speakersImg");
-        private By byCreateNewAccountButton = By.LinkText("CREATE NEW ACCOUNT");
-        private By byUserName = By.XPath("//a[@id='menuUserLink']//span");
+        private readonly By bySpeaker = By.Id("speakersImg");
+        private readonly By byCreateNewAccountButton = By.LinkText("CREATE NEW ACCOUNT");
+        private readonly By byUserName = By.XPath("//a[@id='menuUserLink']//span");
 
         public HomePage(IWebDriver webDriver)
         {
@@ -20,17 +18,13 @@ namespace UIAutomationProject.PageObject
         }
 
         [FindsBy(How = How.Id, Using = "menuUserLink")]
-        private IWebElement UserIcon;  
-
-        [FindsBy(How = How.LinkText, Using = "CREATE NEW ACCOUNT")]
-        private IWebElement CreateNewAccountButton;
-
-        [FindsBy(How = How.XPath, Using = "//a[@id='menuUserLink']//span")]
-        private IWebElement UserName;
-
-        public void ValidateUserCreation() {
+        private readonly IWebElement UserIcon;  
+        
+        public bool ValidateUserCreation() {
             WaitTillElementisVisible(driver, byUserName);
-            Assert.True(UserName.Text.Length > 0);     
+            if(driver.FindElement(byUserName).Text.Length > 0)
+                return true;
+            return false;
         }
 
         public CreateAccountPage CreateNewAccount()
@@ -38,7 +32,8 @@ namespace UIAutomationProject.PageObject
             WaitTillElementisClickable(driver, bySpeaker);
             ExecuteJSClickAction(driver, UserIcon);
             WaitTillElementisClickable(driver, byCreateNewAccountButton);
-            CreateNewAccountButton.Click();
+            driver.FindElement(byCreateNewAccountButton).Click();
+            WaitForPageLoad(driver);
             return new CreateAccountPage(driver);
         }
     }

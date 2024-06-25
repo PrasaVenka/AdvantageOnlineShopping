@@ -1,50 +1,62 @@
 {
-  "InputFields": [
+  "CreateAccount_InputFields": [
     {
+      "Locator": "usernameRegisterPage",
       "Name": "Username",
       "Value": "Username"
     },
     {
+      "Locator": "emailRegisterPage",
       "Name": "Email",
       "Value": "email@email.com"
     },
     {
+      "Locator": "passwordRegisterPage",
       "Name": "Password",
       "Value": "Password1"
     },
     {
+      "Locator": "confirm_passwordRegisterPage",
       "Name": "Confirmpassword",
       "Value": "Password1"
     },
     {
+      "Locator": "first_nameRegisterPage",
       "Name": "FirstName",
       "Value": "FirstName"
     },
     {
+      "Locator": "last_nameRegisterPage",
       "Name": "LastName",
       "Value": "LastName"
     },
     {
+      "Locator": "phone_numberRegisterPage",
       "Name": "PhoneNumber",
       "Value": "PhoneNumber"
     },
     {
+      "Locator": "countryListboxRegisterPage",
       "Name": "Country",
       "Value": "Australia"
     },
     {
+      "Locator": "cityRegisterPage",
       "Name": "City",
       "Value": "Sydney"
     },
     {
+      "Locator": "addressRegisterPage",
       "Name": "Address",
       "Value": "100 George street"
     },
     {
+      "Locator": "state_/_province_/_regionRegisterPage",
       "Name": "StateProvinceRegion",
       "Value": "NSW"
     },
     {
+      "Locator": "postal_codeRegisterPage",
       "Name": "PostalCode",
       "Value": "2000"
     }

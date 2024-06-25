@@ -12,7 +12,6 @@ using OpenQA.Selenium.Support.UI;
 using System.Configuration;
 using WebDriverManager.Helpers;
 using Newtonsoft.Json;
-using UIAutomationProject.DTO;
 using SeleniumExtras.WaitHelpers;
 
 namespace UIAutomationProject.Utilities
@@ -22,8 +21,8 @@ namespace UIAutomationProject.Utilities
         public IWebDriver driver;
         public ExtentReports extentReports;
         public ExtentTest extentTest;
-        int pageTimeout = 10;
-        CreateUser registerFormInputs;
+        readonly int pageTimeout = 10;
+        //CreateUser registerFormInputs;
         
         [OneTimeSetUp]
         public void SetupReport()
@@ -39,8 +38,7 @@ namespace UIAutomationProject.Utilities
         {
             extentTest = extentReports.CreateTest(TestContext.CurrentContext.Test.MethodName);
 
-            String browserName;
-            browserName = TestContext.Parameters["browser"];
+            String browserName = TestContext.Parameters["browser"];
 
             if (browserName == null)
             {
@@ -48,13 +46,13 @@ namespace UIAutomationProject.Utilities
             }
             InitBrowser(browserName);
             driver.Manage().Window.Maximize();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             driver.Url = "https://www.advantageonlineshopping.com/";
         }
-        public void ImportCreateUserJsonFile(String filename)
-        {
-            String filePath = GetFilePath("TestData", filename);
-            registerFormInputs = JsonConvert.DeserializeObject<CreateUser>(File.ReadAllText(filePath));
+        public static dynamic ReadJsonData<T>(String filename) where T:class {            
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(GetFilePath("TestData", filename)));             
         }
+
         public void WaitTillElementisVisible(IWebDriver webdriver, By locator)
         {
             WebDriverWait webDriverWait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(pageTimeout));
@@ -68,7 +66,19 @@ namespace UIAutomationProject.Utilities
 
         }
 
-        public void ExecuteJSClickAction(IWebDriver driver, IWebElement element)
+        protected void WaitForPageLoad(IWebDriver webdriver)
+        {
+            WebDriverWait webDriverWait = new WebDriverWait(webdriver, TimeSpan.FromSeconds(pageTimeout));
+            webDriverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//h3[text()='CREATE ACCOUNT']")));
+
+            try
+            {
+                webdriver.FindElement(By.XPath("//h3[text()='CREATEACCOUNT']"));
+            }
+            catch (NoSuchElementException ex) { }            
+        }
+
+        public static void ExecuteJSClickAction(IWebDriver driver, IWebElement element)
         {
 
             IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)driver;
@@ -96,11 +106,10 @@ namespace UIAutomationProject.Utilities
                     EdgeOptions edgeOptions = new EdgeOptions();
                     driver = new EdgeDriver(edgeOptions);
                     break;
-
             }
         }
 
-        public string GetFilePath(string subFolder, String fileName)
+        public static string GetFilePath(string subFolder, String fileName)
         {
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
@@ -108,23 +117,7 @@ namespace UIAutomationProject.Utilities
             return reportPath;
         }
 
-
-        public String FetchFormInputValue(String Key)
-        {
-            String FormatedKey = Key.Replace(" ", "").Replace("/", "");
-            List<InputField> inputFields = registerFormInputs.InputFields;
-            foreach (InputField field in inputFields)
-            {
-                if (field.Name == FormatedKey)
-                {
-                    if (FormatedKey == "Username" && registerFormInputs.DynamicUserCreation)
-                        field.Value = field.Value + (DateTime.Now).ToString("hhmmss"); // dynamic username
-                    return field.Value;
-                }
-            }
-            return "Default";
-        }
-        public MediaEntityModelProvider CaptureScreenshot(IWebDriver driver, String imagename)
+        public static MediaEntityModelProvider CaptureScreenshot(IWebDriver driver, String imagename)
         {
 
             ITakesScreenshot takesScreenshot = (ITakesScreenshot)driver;
@@ -155,7 +148,7 @@ namespace UIAutomationProject.Utilities
         }
 
         [OneTimeTearDown]
-        public void flushReport()
+        public void FlushReport()
         {
             if (extentReports != null) { extentReports.Flush(); }
         }
